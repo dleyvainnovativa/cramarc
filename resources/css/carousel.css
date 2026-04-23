@@ -1,0 +1,96 @@
+/* Swiper structure */
+.tour-swiper,
+.tour-swiper .swiper-wrapper,
+.tour-swiper .swiper-slide {
+    height: 100%;
+}
+
+/* Background per slide */
+.bg-slide {
+    position: relative;
+    background: var(--bg) center/cover no-repeat;
+}
+
+/* Overlay gradient */
+.bg-slide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, var(--dark-color) 0%, var(--dark-color-gradient) 20%,  var(--dark-color) 95%);
+    z-index: 1;
+}
+
+/* Content always above overlay */
+.bg-slide .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Alignment */
+.aligned-hero {
+    margin-top: auto;
+}
+
+.swiper-vertical>.swiper-pagination-bullets, .swiper-pagination-vertical.swiper-pagination-bullets {
+top: 25%;
+}
+
+@media (min-width: 768px) {
+
+
+.bg-slide::after {
+    background:  linear-gradient(180deg, var(--dark-color-gradient) 0%,  var(--dark-color) 95%);
+}
+    
+    .swiper-vertical>.swiper-pagination-bullets, .swiper-pagination-vertical.swiper-pagination-bullets {
+    top: 50%;
+    }
+    .aligned-hero {
+        margin: auto;
+    }
+}
+
+/* Container (optional: vertical style) */
+.swiper-pagination {
+    right: 20px;
+    left: auto;
+}
+
+/* Bullet base */
+.custom-bullet {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Default dot */
+.custom-bullet .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+/* Icon hidden by default */
+.custom-bullet .active-icon {
+    position: absolute;
+    opacity: 0;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+/* ACTIVE state */
+.swiper-pagination-bullet-active .dot {
+    opacity: 0; /* hide dot */
+}
+
+.swiper-pagination-bullet-active .active-icon {
+    opacity: 1; /* show icon */
+}
+
+.p-bullets{
+    padding: 0.65rem !important;
+}
