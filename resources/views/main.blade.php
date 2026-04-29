@@ -25,7 +25,7 @@
     <meta property="og:url" content="{{route('home')}}">
 
 
-    @vite(['resources/scss/app.scss', 'resources/js/app.js','resources/css/theme.css', 'resources/css/carousel.css'
+    @vite(['resources/scss/app.scss', 'resources/js/app.js','resources/css/theme.css', 'resources/css/hero.css', 'resources/js/hero.js'
     ])
     <script preload src="https://kit.fontawesome.com/d544c5e79c.js" crossorigin="anonymous"></script>
     <script>
@@ -40,15 +40,13 @@
     </script>
 </head>
 
-<body class="bg-dark h-100">
+<body class="bg-dark">
 
     @include('components.fonts')
     @include('components.header')
 
-    <main class="h-100">
-        <div class="h-100">
-            @yield('content')
-        </div>
+    <main class="">
+        @yield('content')
     </main>
 
     @include("components.alert")

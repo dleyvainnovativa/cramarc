@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cramarc</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet" />
+    <!-- <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=IBM Plex Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" /> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans+JP:wght@100..900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ── TOKENS ── */
+        :root {
+            --sky: #4a9fd4;
+            --pale: #a8c8e8;
+            --navy: #050d1a;
+            --navy2: #071428;
+            --gold: #c8a96a;
+            --muted: rgba(240, 244, 248, 0.45);
+        }
+
+        /* ── BASE ── */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--navy);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ── NAVBAR ── */
+        #mainNav {
+            background: linear-gradient(to bottom, rgba(5, 13, 26, 0.85), transparent);
+            transition: background .4s, backdrop-filter .4s;
+        }
+
+        #mainNav.scrolled {
+            background: rgba(5, 13, 26, .97);
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-link-custom {
+            font-size: .72rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: rgba(240, 244, 248, .75);
+            text-decoration: none;
+            transition: color .25s;
+        }
+
+        .nav-link-custom:hover {
+            color: #f0f4f8;
+        }
+
+        /* ── HERO ── */
+        .hero {
+
+            position: relative;
+            background: var(--bg) center/cover no-repeat;
+            min-height: 100vh;
+            background: url('blue.png');
+
+        }
+
+        .btn {
+
+            font-size: .72rem;
+            letter-spacing: .22em;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: .6;
+        }
+
+        .hero-slide::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 1200px;
+            background: linear-gradient(to bottom, #050d1a7b, var(--navy));
+            /* background: linear-gradient(180deg, #050d1ad2 0%, #050d1add 80%,  #050d1a 95%); */
+            pointer-events: none;
+            z-index: 1;
+        }
+
+
+        .hero-slide {
+            z-index: 1000;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+
+        }
+
+        .heroSwiper::after {
+            z-index: 1;
+            /* background: linear-gradient(to bottom, #050d1a11 0%, #050d1a11 65%,  var(--navy) 95%); */
+            /* background: linear-gradient(180deg, var(--navy) 0%, #050d1a11 20%,  var(--navy) 95%); */
+
+        }
+
+        .hero-slide::before {
+            content: none;
+            /* background: linear-gradient(to bottom, #050d1a11 0%, var(--navy) 95%) !important; */
+        }
+
+        /* Different backgrounds */
+        .hero-blue {
+            background: url('blue.png') center/cover no-repeat;
+        }
+
+        .hero-red {
+            background: url('red.png') center/cover no-repeat;
+        }
+
+        .hero-green {
+            background: url('green2.png') center/cover no-repeat;
+        }
+
+        .hero-orange {
+            background: url('orange.png') center/cover no-repeat;
+        }
+
+        /* .hero-glow {
+            position: absolute;
+            right: 8%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 680px;
+            height: 680px;
+            border-radius: 20%;
+            pointer-events: none;
+            z-index: 1;
+            background: radial-gradient(circle, rgba(26, 74, 122, .55) 0%, transparent 70%);
+        } */
+
+        .hero-watch {
+            position: absolute;
+            right: 4%;
+            top: 50%;
+            transform: translateY(-48%);
+            width: 52%;
+            max-width: 700px;
+            z-index: 4;
+        }
+
+        .hero-watch img {
+            filter: drop-shadow(-40px 20px 80px rgba(26, 74, 122, 0.05));
+        }
+
+        /* side labels */
+        .side-label {
+            font-size: .62rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            cursor: pointer;
+            transition: color .25s;
+        }
+
+        .side-label:hover {
+            color: #f0f4f8;
+        }
+
+        .side-dot {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 1px solid rgba(240, 244, 248, .2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .5rem;
+            color: rgba(240, 244, 248, .4);
+        }
+
+        /* ── WATCH CARDS ── */
+        .watch-card {
+            border: 1px solid rgba(255, 255, 255, .06);
+            background: linear-gradient(145deg, #0b1e35, #071428);
+            transition: border-color .3s, transform .4s;
+            cursor: pointer;
+        }
+
+        .watch-card:hover {
+            border-color: rgba(74, 159, 212, .3);
+            transform: translateY(-6px);
+        }
+
+        .card-img-wrap {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px;
+            background: linear-gradient(135deg, #0f2540, #061120);
+        }
+
+        .card-img-wrap svg {
+            transition: transform .5s;
+        }
+
+        .watch-card:hover .card-img-wrap svg {
+            transform: scale(1.05) rotate(-3deg);
+        }
+
+        .card-arrow {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, .12);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(240, 244, 248, .5);
+            font-size: .7rem;
+            transition: background .25s, color .25s;
+        }
+
+        .watch-card:hover .card-arrow {
+            background: var(--sky);
+            border-color: var(--sky);
+            color: var(--navy);
+        }
+
+        /* ── SWIPER BUTTONS ── */
+        .swiper-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, .12);
+            background: transparent;
+            color: #f0f4f8;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .8rem;
+            cursor: pointer;
+            transition: background .25s, border-color .25s;
+        }
+
+        .swiper-btn:hover {
+            background: rgba(74, 159, 212, .15);
+            border-color: rgba(74, 159, 212, .5);
+        }
+
+        /* ── EDITORIAL GRID ── */
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+        }
+
+        .ed-card {
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .ed-card svg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .5s;
+            display: block;
+        }
+
+        .ed-card:hover svg {
+            transform: scale(1.05);
+        }
+
+        .ed-label {
+            position: absolute;
+            bottom: 18px;
+            left: 20px;
+            font-size: .62rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: rgba(240, 244, 248, .7);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width:991px) {
+            .hero-watch {
+                width: 65%;
+                right: -8%;
+                opacity: .6;
+            }
+        }
+
+        @media (max-width:767px) {
+            /* .hero-watch {
+                display: none;
+            } */
+
+            .editorial-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .editorial-grid .ed-card:last-child {
+                display: none;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .px-lg-5 {
+                padding-right: 6rem !important;
+                padding-left: 6rem !important;
+            }
+        }
+
+    </style>
+</head>
+
+<body class="text-light">
+
+    <!-- ══════════════════════ NAVBAR ══════════════════════ -->
+    <nav id="mainNav" class="fixed-top px-4 px-lg-5 py-3 d-flex align-items-center justify-content-between">
+
+        <a href="#" class="text-white text-decoration-none fw-bold text-uppercase" style=""><img src="logo_m2.png"
+                height="25px" alt="" srcset=""></a>
+
+        <ul class="d-none d-lg-flex list-unstyled mb-0 gap-4">
+            <li><a href="#" class="nav-link-custom">Watches</a></li>
+            <li><a href="#" class="nav-link-custom">Warranty &amp; Service</a></li>
+            <li><a href="#" class="nav-link-custom">Stores</a></li>
+        </ul>
+
+        <div class="position-relative">
+            <button class="btn rounded border btn-outline-light border-0">
+                <i class="fa-solid fa-bars fa-lg"></i>
+            </button>
+
+        </div>
+
+    </nav>
+
+    <!-- ══════════════════════ HERO ══════════════════════ -->
+    <!-- <section class="hero position-relative d-flex align-items-center overflow-hidden">
+        <div class="hero-glow"></div>
+        <div class="hero-watch">
+            <img src="transparent3.png" alt="" srcset="">
+        </div>
+        <div class="container-fluid px-4 px-lg-5 position-relative z-3 pt-5 pb-5 mt-5">
+            <div class="row">
+                <div class="col-lg-5 col-md-7">
+
+                    <div class="anim-1 d-inline-flex align-items-center gap-2 rounded-pill mb-4 px-3 py-2"
+                        style="border:1px solid rgba(74,159,212,.5);background:rgba(74,159,212,.08);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,244,248,.7);">
+                        Limited to <strong class="text-white">15 Pieces</strong>
+                    </div>
+
+                    <p class="anim-1 mb-2 text-uppercase"
+                        style="font-size:.75rem;letter-spacing:.25em;color:var(--muted);">CH-3123-PABL</p>
+
+                    <h1 class="anim-2 text-uppercase text-white lh-1 mb-4"
+                        style="font-weight:400; font-family: IBM Plex Sans, sans-seriff; font-size:clamp(2.8rem,5.5vw,4.4rem);letter-spacing:0em;">
+                        Open Gear<br>Flying<br>Tourbillon<br>Paraiba
+                    </h1>
+
+                    <a href="#"
+                        class="btn btn-primary rounded-pill text-uppercase btn-sm p-2"
+                        style="background:var(--sky);">
+                        Find Out More
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        <div class="position-absolute bottom-0 start-0 pb-5 ps-5 z-3 d-flex align-items-center gap-3">
+            <div class="side-label d-flex align-items-center gap-2">
+                <span class="side-dot"><i class="fa-solid fa-circle fa-xs"></i></span>
+                Opus Chronograph Titanium
+            </div>
+        </div>
+        <div class="position-absolute bottom-0 end-0 pb-5 pe-5 z-3">
+            <div class="side-label d-flex align-items-center gap-2">
+                Space Timer Jupiter
+                <span class="side-dot"><i class="fa-solid fa-circle fa-xs"></i></span>
+            </div>
+        </div>
+    </section> -->
+
+    <section class="hero swiper heroSwiper position-relative overflow-hidden">
+
+        <div class="swiper-wrapper">
+            <!-- SLIDE 1 -->
+            <div class="swiper-slide d-flex align-items-center hero-slide hero-blue">
+                <div class="hero-glow"></div>
+                <div class="hero-watch">
+                    <img src="transparent3.png" alt="" srcset="">
+                </div>
+                <div class="container-fluid px-4 px-lg-5 position-relative z-3 pt-5 pb-5 mt-5">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-7">
+
+                            <div class="anim-1 d-inline-flex align-items-center gap-2 rounded-pill mb-4 px-3 py-2"
+                                style="border:1px solid rgba(74,159,212,.5);background:rgba(74,159,212,.08);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,244,248,.7);">
+                                Limited to <strong class="text-white">15 Pieces</strong>
+                            </div>
+
+                            <p class="anim-1 mb-2 text-uppercase"
+                                style="font-size:.75rem;letter-spacing:.25em;color:var(--muted);">CH-3123-PABL</p>
+
+                            <h1 class="anim-2 text-uppercase text-white lh-1 mb-4"
+                                style="font-weight:400; font-family: IBM Plex Sans, sans-seriff; font-size:clamp(2.8rem,5.5vw,4.4rem);letter-spacing:0em;">
+                                Open Gear<br>Flying<br>Tourbillon<br>Paraiba
+                            </h1>
+
+                            <a href="#" class="btn btn-primary rounded-pill shadow-sm text-uppercase btn-sm p-2">
+                                Find Out More
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2 -->
+            <div class="swiper-slide d-flex align-items-center hero-slide hero-red">
+                <div class="hero-glow"></div>
+                <div class="hero-watch">
+                    <img src="dron.png" alt="" srcset="">
+                </div>
+                <div class="container-fluid px-4 px-lg-5 position-relative z-3 pt-5 pb-5 mt-5">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-7">
+
+                            <div class="anim-1 d-inline-flex align-items-center gap-2 rounded-pill mb-4 px-3 py-2"
+                                style="border:1px solid rgba(212, 99, 74, 0.5);background:rgba(74,159,212,.08);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,244,248,.7);">
+                                Limited to <strong class="text-white">15 Pieces</strong>
+                            </div>
+
+                            <p class="anim-1 mb-2 text-uppercase"
+                                style="font-size:.75rem;letter-spacing:.25em;color:var(--muted);">CH-3123-PABL</p>
+
+                            <h1 class="anim-2 text-uppercase text-white lh-1 mb-4"
+                                style="font-weight:400; font-family: IBM Plex Sans, sans-seriff; font-size:clamp(2.8rem,5.5vw,4.4rem);letter-spacing:0em;">
+                                Space<br>Time<br>Jupiter
+                            </h1>
+
+                            <a href="#"
+                                class="btn btn-danger border border-danger shadow-sm rounded-pill text-uppercase btn-sm p-2">
+                                Find Out More
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 3 -->
+            <div class="swiper-slide d-flex align-items-center hero-slide hero-green">
+                <div class="hero-glow"></div>
+                <div class="hero-watch">
+                    <img src="hand2.png" alt="" srcset="">
+                </div>
+                <div class="container-fluid px-4 px-lg-5 position-relative z-3 pt-5 pb-5 mt-5">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-7">
+
+                            <div class="anim-1 d-inline-flex align-items-center gap-2 rounded-pill mb-4 px-3 py-2"
+                                style="border:1px solid rgba(85, 212, 74, 0.5);background:rgba(74,159,212,.08);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,244,248,.7);">
+                                Limited to <strong class="text-white">15 Pieces</strong>
+                            </div>
+
+                            <p class="anim-1 mb-2 text-uppercase"
+                                style="font-size:.75rem;letter-spacing:.25em;color:var(--muted);">CH-3123-PABL</p>
+
+                            <h1 class="anim-2 text-uppercase text-white lh-1 mb-4"
+                                style="font-weight:400; font-family: IBM Plex Sans, sans-seriff; font-size:clamp(2.8rem,5.5vw,4.4rem);letter-spacing:0em;">
+                                Open Gear<br>Flying<br>Tourbillon<br>Paraiba
+                            </h1>
+
+                            <a href="#" class="btn btn-success rounded-pill text-uppercase btn-sm p-2">
+                                Find Out More
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 4 -->
+            <div class="swiper-slide d-flex align-items-center hero-slide hero-orange">
+                <div class="hero-glow"></div>
+                <div class="hero-watch">
+                    <img src="house.png" alt="" srcset="">
+                </div>
+                <div class="container-fluid px-4 px-lg-5 position-relative z-3 pt-5 pb-5 mt-5">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-7">
+
+                            <div class="anim-1 d-inline-flex align-items-center gap-2 rounded-pill mb-4 px-3 py-2"
+                                style="border:1px solid rgba(212, 161, 74, 0.5);background:rgba(74,159,212,.08);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(240,244,248,.7);">
+                                Limited to <strong class="text-white">15 Pieces</strong>
+                            </div>
+
+                            <p class="anim-1 mb-2 text-uppercase"
+                                style="font-size:.75rem;letter-spacing:.25em;color:var(--muted);">CH-3123-PABL</p>
+
+                            <h1 class="anim-2 text-uppercase text-white lh-1 mb-4"
+                                style="font-weight:400; font-family: IBM Plex Sans, sans-seriff; font-size:clamp(2.8rem,5.5vw,4.4rem);letter-spacing:0em;">
+                                Open Gear<br>Flying<br>Tourbillon<br>Paraiba
+                            </h1>
+
+                            <a href="#" class="btn btn-warning rounded-pill text-uppercase btn-sm p-2">
+                                Find Out More
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="position-absolute bottom-0 start-0 pb-5 ps-lg-5 ps-3 z-3 d-flex align-items-center gap-3">
+            <div class="side-label d-flex align-items-center gap-2 d-none d-md-block">
+                <span class="side-dot"><i class="fa-solid fa-circle fa-xs"></i></span>
+                Opus Chronograph Titanium
+            </div>
+            <div class="side-label d-flex align-items-center gap-2 d-block d-md-none">
+                <span class="side-dot"><i class="fa-solid fa-chevron-left fa-xs"></i></span>
+                
+            </div>
+        </div>
+        <div class="position-absolute bottom-0 end-0 pb-5 pe-lg-5 pe-3 z-3">
+            <div class="side-label d-flex align-items-center gap-2 d-none d-md-block">
+                Space Timer Jupiter
+                <span class="side-dot"><i class="fa-solid fa-circle fa-xs"></i></span>
+            </div>
+            <div class="side-label d-flex align-items-center gap-2 d-block d-md-none">
+                
+                <span class="side-dot"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ══════════════════════ SECOND SECTION ══════════════════════ -->
+    <section class="py-5" style="background:var(--navy);">
+        <div class="container-fluid px-4 px-lg-5">
+
+            <div class="d-flex align-items-end justify-content-between mb-4">
+                <div>
+                    <p class="mb-1 text-uppercase fw-semibold"
+                        style="font-size:.65rem;letter-spacing:.3em;color:var(--sky);">Our Collection</p>
+                    <h2 class="mb-0 fw-light text-white"
+                        style="font-family:'Inter',serif;font-size:clamp(2rem,3.5vw,3rem);">Exceptional
+                        Timepieces</h2>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="swiper-btn swiper-btn-prev"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button class="swiper-btn swiper-btn-next"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Swiper -->
+            <div class="swiper watchSwiper pb-4">
+                <div class="swiper-wrapper">
+
+                    <!-- Card 1 -->
+                    <div class="swiper-slide">
+                        <div class="card watch-card rounded overflow-hidden bg-dark text-white">
+                            <!-- Image / SVG -->
+                            <div class="card-img-top  card-img-wrap">
+                                <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" style="max-height:200px">
+                                    <defs>
+                                        <radialGradient id="d1" cx="45%" cy="40%" r="55%">
+                                            <stop offset="0%" stop-color="#2a6a9a" />
+                                            <stop offset="100%" stop-color="#030a14" />
+                                        </radialGradient>
+                                    </defs>
+                                    <circle cx="110" cy="110" r="85" fill="#888a98" />
+                                    <circle cx="110" cy="110" r="78" fill="#1a1e2a" />
+                                    <circle cx="110" cy="110" r="70" fill="url(#d1)" />
+                                    <line x1="110" y1="110" x2="110" y2="55" stroke="white" stroke-width="2.5"
+                                        stroke-linecap="round" />
+                                    <line x1="110" y1="110" x2="148" y2="85" stroke="white" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <circle cx="110" cy="110" r="4" fill="white" />
+                                    <text x="110" y="105" text-anchor="middle"
+                                        font-family="IBM Plex Sans,sans-serif !important" font-size="7"
+                                        fill="rgba(255,255,255,0.5)" letter-spacing="2">
+                                        CHRONOSWISS
+                                    </text>
+                                </svg>
+                            </div>
+
+                            <!-- Body -->
+                            <div class="card-body border-top" style="border-color:rgba(255,255,255,.05) !important;">
+
+                                <p class="mb-1 text-uppercase small text-white-50" style="letter-spacing:.2em;">
+                                    CH-7541B
+                                </p>
+
+                                <h6 class="mb-3 fw-semibold text-uppercase lh-sm" style="letter-spacing:.08em;">
+                                    Opus Chronograph<br>Titanium
+                                </h6>
+
+                                <div class="d-flex align-items-center justify-content-between">
+
+                                    <span class="badge rounded-pill px-2 py-1  text-uppercase" style="font-size:.6rem;letter-spacing:.15em;
+        background:rgba(74,159,212,.1);
+        border:1px solid rgba(74,159,212,.25);
+        color:var(--sky);">
+                                        Chronograph
+                                    </span>
+                                    <div class="card-arrow">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card watch-card rounded overflow-hidden bg-dark text-white">
+                            <!-- Image / SVG -->
+                            <div class="card-img-top  card-img-wrap"
+                                style="background:linear-gradient(135deg,#2a1a08,#0a0604);">
+                                <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" style="max-height:200px">
+                                    <defs>
+                                        <radialGradient id="d2" cx="45%" cy="40%" r="55%">
+                                            <stop offset="0%" stop-color="#6a4a1a" />
+                                            <stop offset="100%" stop-color="#0a0604" />
+                                        </radialGradient>
+                                    </defs>
+                                    <circle cx="110" cy="110" r="85" fill="#c8a96a" />
+                                    <circle cx="110" cy="110" r="78" fill="#1a1408" />
+                                    <circle cx="110" cy="110" r="70" fill="url(#d2)" />
+                                    <line x1="110" y1="110" x2="110" y2="55" stroke="#c8a96a" stroke-width="2.5"
+                                        stroke-linecap="round" />
+                                    <line x1="110" y1="110" x2="148" y2="85" stroke="#c8a96a" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <circle cx="110" cy="110" r="4" fill="#c8a96a" />
+                                    <rect x="88" y="130" width="44" height="22" rx="3" fill="rgba(5,3,1,0.5)"
+                                        stroke="rgba(200,169,106,0.3)" stroke-width="1" />
+                                    <text x="110" y="144" text-anchor="middle" font-family="IBM Plex Sans,sans-serif"
+                                        font-size="5" fill="rgba(200,169,106,0.7)" letter-spacing="1">DATE</text>
+                                </svg>
+                            </div>
+
+                            <!-- Body -->
+                            <div class="card-body border-top" style="border-color:rgba(255,255,255,.05) !important;">
+
+                                <p class="mb-1 text-uppercase small text-white-50" style="letter-spacing:.2em;">
+                                    CH-9143.1
+                                </p>
+
+                                <h6 class="mb-3 fw-semibold text-uppercase lh-sm" style="letter-spacing:.08em;">
+                                    Flying Regulator<br>Open Gear
+                                </h6>
+
+                                <div class="d-flex align-items-center justify-content-between">
+
+                                    <span class="rounded-pill px-2 py-1 text-uppercase"
+                                        style="font-size:.6rem;letter-spacing:.15em;background:rgba(200,169,106,.08);border:1px solid rgba(200,169,106,.25);color:var(--gold);">Regulator</span>
+
+                                    <div class="card-arrow">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="swiper-slide">
+                        <div class="watch-card rounded-1 overflow-hidden">
+                            <div class="card-img-wrap" style="background:linear-gradient(135deg,#2a1a08,#0a0604);">
+                                <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" style="max-height:200px">
+                                    <defs>
+                                        <radialGradient id="d2" cx="45%" cy="40%" r="55%">
+                                            <stop offset="0%" stop-color="#6a4a1a" />
+                                            <stop offset="100%" stop-color="#0a0604" />
+                                        </radialGradient>
+                                    </defs>
+                                    <circle cx="110" cy="110" r="85" fill="#c8a96a" />
+                                    <circle cx="110" cy="110" r="78" fill="#1a1408" />
+                                    <circle cx="110" cy="110" r="70" fill="url(#d2)" />
+                                    <line x1="110" y1="110" x2="110" y2="55" stroke="#c8a96a" stroke-width="2.5"
+                                        stroke-linecap="round" />
+                                    <line x1="110" y1="110" x2="148" y2="85" stroke="#c8a96a" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <circle cx="110" cy="110" r="4" fill="#c8a96a" />
+                                    <rect x="88" y="130" width="44" height="22" rx="3" fill="rgba(5,3,1,0.5)"
+                                        stroke="rgba(200,169,106,0.3)" stroke-width="1" />
+                                    <text x="110" y="144" text-anchor="middle" font-family="IBM Plex Sans,sans-serif"
+                                        font-size="5" fill="rgba(200,169,106,0.7)" letter-spacing="1">DATE</text>
+                                </svg>
+                            </div>
+                            <div class="p-3 border-top" style="border-color:rgba(255,255,255,.05)!important;">
+                                <p class="mb-1 text-uppercase"
+                                    style="font-size:.6rem;letter-spacing:.2em;color:rgba(240,244,248,.35);">CH-9143.1
+                                </p>
+                                <p class="mb-3 fw-light text-uppercase text-white lh-sm"
+                                    style="font-size:.95rem;letter-spacing:.08em;">Flying Regulator<br>Open Gear</p>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span class="rounded-pill px-2 py-1 text-uppercase"
+                                        style="font-size:.6rem;letter-spacing:.15em;background:rgba(200,169,106,.08);border:1px solid rgba(200,169,106,.25);color:var(--gold);">Regulator</span>
+                                    <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="swiper-slide">
+                        <div class="watch-card rounded-1 overflow-hidden">
+                            <div class="card-img-wrap" style="background:linear-gradient(135deg,#081a30,#030a14);">
+                                <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" style="max-height:200px">
+                                    <defs>
+                                        <radialGradient id="d3" cx="45%" cy="40%" r="55%">
+                                            <stop offset="0%" stop-color="#1a3a6a" />
+                                            <stop offset="100%" stop-color="#020810" />
+                                        </radialGradient>
+                                    </defs>
+                                    <circle cx="110" cy="110" r="85" fill="#5a6a8a" />
+                                    <circle cx="110" cy="110" r="78" fill="#0a1018" />
+                                    <circle cx="110" cy="110" r="70" fill="url(#d3)" />
+                                    <circle cx="110" cy="80" r="18" fill="rgba(0,0,0,0.3)" stroke="rgba(74,159,212,0.3)"
+                                        stroke-width=".8" />
+                                    <circle cx="110" cy="140" r="14" fill="rgba(0,0,0,0.3)"
+                                        stroke="rgba(74,159,212,0.3)" stroke-width=".8" />
+                                    <line x1="110" y1="110" x2="110" y2="58" stroke="white" stroke-width="2.5"
+                                        stroke-linecap="round" />
+                                    <line x1="110" y1="110" x2="148" y2="82" stroke="white" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <circle cx="110" cy="110" r="4" fill="white" />
+                                </svg>
+                            </div>
+                            <div class="p-3 border-top" style="border-color:rgba(255,255,255,.05)!important;">
+                                <p class="mb-1 text-uppercase"
+                                    style="font-size:.6rem;letter-spacing:.2em;color:rgba(240,244,248,.35);">CH-9045.2
+                                </p>
+                                <p class="mb-3 fw-semibold text-uppercase text-white lh-sm"
+                                    style="font-size:.95rem;letter-spacing:.08em;">Space Timer<br>Jupiter</p>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span class="rounded-pill px-2 py-1 text-uppercase"
+                                        style="font-size:.6rem;letter-spacing:.15em;background:rgba(74,159,212,.1);border:1px solid rgba(74,159,212,.25);color:var(--sky);">Limited</span>
+                                    <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="swiper-slide">
+                        <div class="watch-card rounded-1 overflow-hidden">
+                            <div class="card-img-wrap" style="background:linear-gradient(135deg,#1a0a10,#080308);">
+                                <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" style="max-height:200px">
+                                    <defs>
+                                        <radialGradient id="d4" cx="45%" cy="40%" r="55%">
+                                            <stop offset="0%" stop-color="#4a1a2a" />
+                                            <stop offset="100%" stop-color="#0a0308" />
+                                        </radialGradient>
+                                    </defs>
+                                    <circle cx="110" cy="110" r="85" fill="#9a8898" />
+                                    <circle cx="110" cy="110" r="78" fill="#180b10" />
+                                    <circle cx="110" cy="110" r="70" fill="url(#d4)" />
+                                    <circle cx="110" cy="145" r="22" fill="none" stroke="rgba(220,180,200,0.3)"
+                                        stroke-width="1" />
+                                    <circle cx="110" cy="145" r="16" fill="rgba(5,2,4,0.5)" />
+                                    <g stroke="rgba(220,180,200,0.4)" stroke-width=".8">
+                                        <line x1="110" y1="129" x2="110" y2="161" />
+                                        <line x1="96" y1="137" x2="124" y2="153" />
+                                        <line x1="96" y1="153" x2="124" y2="137" />
+                                    </g>
+                                    <circle cx="110" cy="145" r="4" fill="#d4a0b4" />
+                                    <line x1="110" y1="110" x2="110" y2="60" stroke="white" stroke-width="2.5"
+                                        stroke-linecap="round" />
+                                    <line x1="110" y1="110" x2="152" y2="85" stroke="white" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <circle cx="110" cy="110" r="4" fill="white" />
+                                </svg>
+                            </div>
+                            <div class="p-3 border-top" style="border-color:rgba(255,255,255,.05)!important;">
+                                <p class="mb-1 text-uppercase"
+                                    style="font-size:.6rem;letter-spacing:.2em;color:rgba(240,244,248,.35);">
+                                    CH-3123-PABL</p>
+                                <p class="mb-3 fw-semibold text-uppercase text-white lh-sm"
+                                    style="font-size:.95rem;letter-spacing:.08em;">Open Gear Flying<br>Tourbillon
+                                    Paraiba</p>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span class="rounded-pill px-2 py-1 text-uppercase"
+                                        style="font-size:.6rem;letter-spacing:.15em;background:rgba(74,159,212,.1);border:1px solid rgba(74,159,212,.25);color:var(--sky);">Tourbillon</span>
+                                    <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="swiper-slide">
+                        <div class="watch-card rounded-1 overflow-hidden">
+                            <div class="card-img-wrap" style="background:linear-gradient(135deg,#0a1a14,#030a06);">
+                                <svg viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" style="max-height:200px">
+                                    <defs>
+                                        <radialGradient id="d5" cx="45%" cy="40%" r="55%">
+                                            <stop offset="0%" stop-color="#1a4a3a" />
+                                            <stop offset="100%" stop-color="#020a06" />
+                                        </radialGradient>
+                                    </defs>
+                                    <circle cx="110" cy="110" r="85" fill="#6a8a78" />
+                                    <circle cx="110" cy="110" r="78" fill="#0a1410" />
+                                    <circle cx="110" cy="110" r="70" fill="url(#d5)" />
+                                    <line x1="110" y1="110" x2="110" y2="55" stroke="white" stroke-width="2.5"
+                                        stroke-linecap="round" />
+                                    <line x1="110" y1="110" x2="148" y2="88" stroke="white" stroke-width="2"
+                                        stroke-linecap="round" />
+                                    <line x1="110" y1="110" x2="90" y2="160" stroke="#4ad4a4" stroke-width="1"
+                                        stroke-linecap="round" />
+                                    <circle cx="110" cy="110" r="4" fill="white" />
+                                    <text x="110" y="95" text-anchor="middle" font-family="IBM Plex Sans,sans-serif"
+                                        font-size="6" fill="rgba(255,255,255,0.4)" letter-spacing="2">CHRONOSWISS</text>
+                                </svg>
+                            </div>
+                            <div class="p-3 border-top" style="border-color:rgba(255,255,255,.05)!important;">
+                                <p class="mb-1 text-uppercase"
+                                    style="font-size:.6rem;letter-spacing:.2em;color:rgba(240,244,248,.35);">CH-6723.1
+                                </p>
+                                <p class="mb-3 fw-semibold text-uppercase text-white lh-sm"
+                                    style="font-size:.95rem;letter-spacing:.08em;">Sirius Moon Phase<br>Emerald</p>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <span class="rounded-pill px-2 py-1 text-uppercase"
+                                        style="font-size:.6rem;letter-spacing:.15em;background:rgba(74,212,164,.08);border:1px solid rgba(74,212,164,.25);color:#4ad4a4;">Moon
+                                        Phase</span>
+                                    <div class="card-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+    </section>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        const nav = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40));
+
+        new Swiper('.watchSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 16,
+            grabCursor: true,
+            breakpoints: {
+                576: {
+                    slidesPerView: 1,
+                    spaceBetween: 18
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 20
+                },
+                992: {
+                    slidesPerView: 3,
+                    spaceBetween: 22
+                },
+                1200: {
+                    slidesPerView: 4,
+                    spaceBetween: 24
+                },
+            },
+            navigation: {
+                nextEl: '.swiper-btn-next',
+                prevEl: '.swiper-btn-prev'
+            },
+        });
+
+        new Swiper('.heroSwiper', {
+            slidesPerView: 1,
+            loop: true,
+            speed: 400,
+            effect: 'fade', // 🔥 smooth luxury feel
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false
+            }
+        });
+
+    </script>
+</body>
+
+</html>

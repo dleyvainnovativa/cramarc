@@ -58,7 +58,7 @@
                 </div>
 
 
-                <div class="col-12" data-aos="fade-up" data-aos-delay="900">
+                <div class="col-12" data-aos="fade-up" data-aos-delay="200">
                     <p class="text-muted fs-5 pb-0 mb-0">Para más información comunícate con nosotros <a class="fw-bold" href="#">aquí</a></p>
                 </div>
 
